@@ -145,6 +145,7 @@ const SidebarMenuCollapsedDropdown = ({ item, href }: { item: NavCollapsible; hr
 };
 
 function checkIsActive(href: string, item: NavItem, mainNav = false) {
+  console.warn('test commit');
   return (
     href === item.url || // /endpint?search=param
     href.split('?')[0] === item.url || // endpoint
