@@ -1,7 +1,13 @@
+import { DataTable } from "@/features/data-table";
+
 export default function Todo() {
+
   return (
     <div>
-      <p>Todo</p>
+      <div>
+        <p>Todo</p>
+      </div>
+      <DataTable />
     </div>
   );
 }
