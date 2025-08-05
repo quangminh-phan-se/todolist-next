@@ -5,7 +5,6 @@ import { NavUser } from '@/components/layout/nav-user';
 import { sidebarData } from '@/data-seed/sidebar-data';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
-  console.warn('test commit');
   return (
     <Sidebar collapsible='icon' variant='floating' {...props}>
       <SidebarContent>
