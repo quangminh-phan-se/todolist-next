@@ -30,7 +30,7 @@ export default function RootLayout({
       <body className={`${geistSans.variable} ${geistMono.variable} antialiased`}>
         <SidebarProvider>
           <AppSidebar />
-          <main className={cn('peer-[.header-fixed]/header:mt-16', 'px-4 py-6')}>
+          <main className={cn('peer-[.header-fixed]/header:mt-16', 'px-4 py-6 w-full')}>
             <SidebarTrigger />
             {children}
           </main>

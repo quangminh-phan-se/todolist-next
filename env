@@ -1,0 +1,7 @@
+DB_TYPE=postgres
+DB_HOST=postgres
+DB_PORT=5432
+DB_USERNAME=todolist
+DB_PASSWORD=9fT!x2Qv#Lp7wZsR
+DB_DATABASE=todolist
+DB_SYNCHRONIZE=false
