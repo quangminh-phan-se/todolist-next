@@ -37,6 +37,8 @@ import {
 } from "@/components/ui/table"
 import { Payment } from "@/types/table-data";
 import { data } from '@/data-seed/table-data'
+import { PlusCircleIcon } from "lucide-react"
+import { DataTablePagination } from "./data-table-pagination"
 
 export const columns: ColumnDef<Payment>[] = [
   {
@@ -62,21 +64,21 @@ export const columns: ColumnDef<Payment>[] = [
     enableHiding: false,
   },
   {
-    accessorKey: "status",
-    header: "Status",
+    accessorKey: "task",
+    header: "Task",
     cell: ({ row }) => (
       <div className="capitalize">{row.getValue("status")}</div>
     ),
   },
   {
-    accessorKey: "email",
+    accessorKey: "title",
     header: ({ column }) => {
       return (
         <Button
           variant="ghost"
           onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}
         >
-          Email
+          Title
           <ArrowUpDown />
         </Button>
       )
@@ -84,8 +86,23 @@ export const columns: ColumnDef<Payment>[] = [
     cell: ({ row }) => <div className="lowercase">{row.getValue("email")}</div>,
   },
   {
-    accessorKey: "amount",
-    header: () => <div className="text-right">Amount</div>,
+    accessorKey: "status",
+    header: () => <div className="text-right">Status</div>,
+    cell: ({ row }) => {
+      const amount = parseFloat(row.getValue("amount"))
+
+      // Format the amount as a dollar amount
+      const formatted = new Intl.NumberFormat("en-US", {
+        style: "currency",
+        currency: "USD",
+      }).format(amount)
+
+      return <div className="text-right font-medium">{formatted}</div>
+    },
+  },
+  {
+    accessorKey: "priority",
+    header: () => <div className="text-right">Priority</div>,
     cell: ({ row }) => {
       const amount = parseFloat(row.getValue("amount"))
 
@@ -159,9 +176,9 @@ export function DataTable() {
 
   return (
     <div className="w-full">
-      <div className="flex items-center py-4">
+      <div className="flex items-center py-4 flex flex-1 flex-col-reverse gap-y-2 sm:flex-row sm:items-center sm:space-x-2">
         <Input
-          placeholder="Filter emails..."
+          placeholder="Filter tasks..."
           value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
           onChange={(event) =>
             table.getColumn("email")?.setFilterValue(event.target.value)
@@ -171,12 +188,19 @@ export function DataTable() {
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
+              <PlusCircleIcon />
               Status
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuTrigger asChild>
             <Button variant="outline" className="ml-auto">
+              <PlusCircleIcon />
               Priority
+            </Button>
+          </DropdownMenuTrigger>
+          <DropdownMenuTrigger asChild>
+            <Button variant="outline" className="ml-auto">
+              View
             </Button>
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end">
@@ -250,30 +274,7 @@ export function DataTable() {
           </TableBody>
         </Table>
       </div>
-      <div className="flex items-center justify-end space-x-2 py-4">
-        <div className="text-muted-foreground flex-1 text-sm">
-          {table.getFilteredSelectedRowModel().rows.length} of{" "}
-          {table.getFilteredRowModel().rows.length} row(s) selected.
-        </div>
-        <div className="space-x-2">
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.previousPage()}
-            disabled={!table.getCanPreviousPage()}
-          >
-            Previous
-          </Button>
-          <Button
-            variant="outline"
-            size="sm"
-            onClick={() => table.nextPage()}
-            disabled={!table.getCanNextPage()}
-          >
-            Next
-          </Button>
-        </div>
-      </div>
+      <DataTablePagination table={table} />
     </div>
   )
 }
